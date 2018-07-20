@@ -14,10 +14,11 @@ public class Bookdao {
         Connection conn = Dbutil.getConn();
 
         try {
-            PreparedStatement ps = conn.prepareStatement("insert into books(bname,price,author) values(?,?,?)");
+            PreparedStatement ps = conn.prepareStatement("insert into books(bname,price,author,publisher) values(?,?,?,?)");
             ps.setString(1, book.getName());
             ps.setFloat(2, book.getPrice());
             ps.setString(3, book.getAuthor());
+            ps.setString(4, book.getPublisher());
             ps.execute();
             result = true;
         } catch (SQLException var8) {
@@ -38,7 +39,8 @@ public class Bookdao {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                book = new Book(rs.getInt(1), rs.getString(2), rs.getFloat(3), rs.getString(4));
+                book = new Book(rs.getInt(1), rs.getString(2), rs.getFloat(3),
+                        rs.getString(4), rs.getString(5));
             }
         } catch (SQLException var6) {
             var6.printStackTrace();
@@ -62,15 +64,16 @@ public class Bookdao {
         return ret;
     }
 
-    public int modifyBook(int id, String name, float price) {
+    public int modifyBook(int id, String name, float price, String author, String publisher) {
         Connection conn = Dbutil.getConn();
         int ret = 0;
 
         try {
-            PreparedStatement ps = conn.prepareStatement("update books set bname=? , price=? where id =?");
+            PreparedStatement ps = conn.prepareStatement("update books set bname=? , price=? , author=?, publisher=?, where id =?");
             ps.setString(1, name);
             ps.setFloat(2, price);
             ps.setInt(3, id);
+            ps.setString(4, author);
             ret = ps.executeUpdate();
         } catch (SQLException var7) {
             var7.printStackTrace();
@@ -92,7 +95,8 @@ public class Bookdao {
                 String name = rs.getString(2);
                 float price = rs.getFloat(3);
                 String author = rs.getString(4);
-                Book book = new Book(id, name, price, author);
+                String publisher = rs.getString(5);
+                Book book = new Book(id, name, price, author, publisher);
                 list.add(book);
             }
         } catch (SQLException var9) {

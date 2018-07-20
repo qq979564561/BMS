@@ -1,4 +1,5 @@
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,7 +31,10 @@ class Main {
         float price = in.nextFloat();
         System.out.println("请输入图书的作者");
         String author = in.next();
-        Book book = new Book(bname, price, author);
+        System.out.println("请输入图书的出版商");
+        String publisher = in.next();
+        // FIXME
+        Book book = new Book(bname, price, author, publisher);
         boolean flag = this.dao.addBook(book);
         if (flag) {
             System.out.println("添加成功");
@@ -48,7 +52,9 @@ class Main {
             String name = ((Book)list.get(i)).getName();
             float price = ((Book)list.get(i)).getPrice();
             String author = ((Book)list.get(i)).getAuthor();
-            System.out.println("编号: "+ id + ", 书名: " + name + "，价格: " + price + "，作者: " + author);
+            String publisher = ((Book)list.get(i)).getPublisher();
+            System.out.println("编号: "+ id + ", 书名: " + name + "，价格: " + price
+                    + "，作者: " + author + "，出版商: " + publisher);
         }
 
     }
@@ -58,7 +64,8 @@ class Main {
         int id = in.nextInt();
         Book bk = this.dao.queryBookById(id);
         if (bk != null) {
-            System.out.println("编号：" + bk.getId() + "，书名：" + bk.getName() + "，价格：" + bk.getPrice() + "，作者：" + bk.getAuthor());
+            System.out.println("编号：" + bk.getId() + "，书名：" + bk.getName() + "，价格：" + bk.getPrice()
+                    + "，作者：" + bk.getAuthor() + "，出版商：" + bk.getPublisher());
         } else {
             System.out.println("查找的图书不存在");
         }
@@ -72,7 +79,11 @@ class Main {
         String name = in.next();
         System.out.println("请输入新的价格");
         float price = in.nextFloat();
-        int ret = this.dao.modifyBook(id, name, price);
+        System.out.println("请输入新的作者名字");
+        String author = in.next();
+        System.out.println("请输入出版商的名字");
+        String publisher = in.next();
+        int ret = this.dao.modifyBook(id, name, price, author, publisher);
         if (ret == 1) {
             System.out.println("修改成功");
         } else {
