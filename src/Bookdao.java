@@ -14,9 +14,10 @@ public class Bookdao {
         Connection conn = Dbutil.getConn();
 
         try {
-            PreparedStatement ps = conn.prepareStatement("insert into books(bname,price) values(?,?)");
+            PreparedStatement ps = conn.prepareStatement("insert into books(bname,price,author) values(?,?,?)");
             ps.setString(1, book.getName());
             ps.setFloat(2, book.getPrice());
+            ps.setString(3, book.getAuthor());
             ps.execute();
             result = true;
         } catch (SQLException var8) {
@@ -37,7 +38,7 @@ public class Bookdao {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                book = new Book(rs.getInt(1), rs.getString(2), rs.getFloat(3));
+                book = new Book(rs.getInt(1), rs.getString(2), rs.getFloat(3), rs.getString(4));
             }
         } catch (SQLException var6) {
             var6.printStackTrace();
@@ -90,7 +91,8 @@ public class Bookdao {
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
                 float price = rs.getFloat(3);
-                Book book = new Book(id, name, price);
+                String author = rs.getString(4);
+                Book book = new Book(id, name, price, author);
                 list.add(book);
             }
         } catch (SQLException var9) {

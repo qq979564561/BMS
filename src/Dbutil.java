@@ -18,7 +18,6 @@ public class Dbutil {
             e.printStackTrace();
         }
 
-
         return conn;
     }
 

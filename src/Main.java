@@ -28,7 +28,9 @@ class Main {
         String bname = in.next();
         System.out.println("请输入图书的价钱");
         float price = in.nextFloat();
-        Book book = new Book(bname, price);
+        System.out.println("请输入图书的作者");
+        String author = in.next();
+        Book book = new Book(bname, price, author);
         boolean flag = this.dao.addBook(book);
         if (flag) {
             System.out.println("添加成功");
@@ -45,7 +47,8 @@ class Main {
             int id = ((Book)list.get(i)).getId();
             String name = ((Book)list.get(i)).getName();
             float price = ((Book)list.get(i)).getPrice();
-            System.out.println("编号: "+ id + ", 书名: " + name + "，价格: " + price);
+            String author = ((Book)list.get(i)).getAuthor();
+            System.out.println("编号: "+ id + ", 书名: " + name + "，价格: " + price + "，作者: " + author);
         }
 
     }
@@ -55,7 +58,7 @@ class Main {
         int id = in.nextInt();
         Book bk = this.dao.queryBookById(id);
         if (bk != null) {
-            System.out.println("编号：" + bk.getId() + "，书名：" + bk.getName() + "，价格：" + bk.getPrice());
+            System.out.println("编号：" + bk.getId() + "，书名：" + bk.getName() + "，价格：" + bk.getPrice() + "，作者：" + bk.getAuthor());
         } else {
             System.out.println("查找的图书不存在");
         }
