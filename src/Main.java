@@ -1,5 +1,4 @@
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -33,8 +32,12 @@ class Main {
         String author = in.next();
         System.out.println("请输入图书的出版商");
         String publisher = in.next();
+        System.out.println("请输入图书的发行日期");
+        String pdate = in.next();
+        System.out.println("请输入图书的数量");
+        int pamount = in.nextInt();
         // FIXME
-        Book book = new Book(bname, price, author, publisher);
+        Book book = new Book(bname, price, author, publisher, pdate, pamount);
         boolean flag = this.dao.addBook(book);
         if (flag) {
             System.out.println("添加成功");
@@ -53,8 +56,10 @@ class Main {
             float price = ((Book)list.get(i)).getPrice();
             String author = ((Book)list.get(i)).getAuthor();
             String publisher = ((Book)list.get(i)).getPublisher();
+            String pdate = ((Book)list.get(i)).getPdate();
+            int pamount =  ((Book)list.get(i)).getPamount();
             System.out.println("编号: "+ id + ", 书名: " + name + "，价格: " + price
-                    + "，作者: " + author + "，出版商: " + publisher);
+                    + "，作者: " + author + "，出版商: " + publisher + ", 发行日期: " + pdate + "，数量：" + pamount);
         }
 
     }
@@ -65,11 +70,10 @@ class Main {
         Book bk = this.dao.queryBookById(id);
         if (bk != null) {
             System.out.println("编号：" + bk.getId() + "，书名：" + bk.getName() + "，价格：" + bk.getPrice()
-                    + "，作者：" + bk.getAuthor() + "，出版商：" + bk.getPublisher());
+                    + "，作者：" + bk.getAuthor() + "，出版商：" + bk.getPublisher() + ", 发行日期：" + bk.getPdate() + "，数量：" + bk.getPamount());
         } else {
             System.out.println("查找的图书不存在");
         }
-
     }
 
     public void modifyBook() {
@@ -83,7 +87,11 @@ class Main {
         String author = in.next();
         System.out.println("请输入出版商的名字");
         String publisher = in.next();
-        int ret = this.dao.modifyBook(id, name, price, author, publisher);
+        System.out.println("请输入新的发行日期");
+        String pdate = in.next();
+        System.out.println("请输入新的数量");
+        int pamount = in.nextInt();
+        int ret = this.dao.modifyBook(id, name, price, author, publisher, pdate, pamount);
         if (ret == 1) {
             System.out.println("修改成功");
         } else {

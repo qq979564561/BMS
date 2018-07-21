@@ -14,11 +14,13 @@ public class Bookdao {
         Connection conn = Dbutil.getConn();
 
         try {
-            PreparedStatement ps = conn.prepareStatement("insert into books(bname,price,author,publisher) values(?,?,?,?)");
+            PreparedStatement ps = conn.prepareStatement("insert into books(bname,price,author,publisher,pdate,pamount) values(?,?,?,?,?,?)");
             ps.setString(1, book.getName());
             ps.setFloat(2, book.getPrice());
             ps.setString(3, book.getAuthor());
             ps.setString(4, book.getPublisher());
+            ps.setString(5, book.getPdate());
+            ps.setInt(6,book.getPamount());
             ps.execute();
             result = true;
         } catch (SQLException var8) {
@@ -35,12 +37,12 @@ public class Bookdao {
         Book book = null;
 
         try {
-            PreparedStatement ps = conn.prepareStatement("select id,bname,price from books where id = ?");
+            PreparedStatement ps = conn.prepareStatement("select id,bname,price,author,publisher,pdate,pamount from books where id = ?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 book = new Book(rs.getInt(1), rs.getString(2), rs.getFloat(3),
-                        rs.getString(4), rs.getString(5));
+                        rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
             }
         } catch (SQLException var6) {
             var6.printStackTrace();
@@ -64,18 +66,20 @@ public class Bookdao {
         return ret;
     }
 
-    public int modifyBook(int id, String name, float price, String author, String publisher) {
+    public int modifyBook(int id, String name, float price, String author, String publisher, String pdate, int pamount) {
         Connection conn = Dbutil.getConn();
         int ret = 0;
 
         // FIXME
         try {
-            PreparedStatement ps = conn.prepareStatement("update books set bname=? , price=? , author=?, publisher=?, where id =?");
+            PreparedStatement ps = conn.prepareStatement("update books set bname=? , price=?, author=?, publisher=?, pdate=?, pamount=? where id =?");
             ps.setString(1, name);
             ps.setFloat(2, price);
             ps.setString(3, author);
             ps.setString(4, publisher);
-            ps.setInt(5, id);
+            ps.setString(5, pdate);
+            ps.setInt(6, pamount);
+            ps.setInt(7, id);
             ret = ps.executeUpdate();
         } catch (SQLException var7) {
             var7.printStackTrace();
@@ -98,7 +102,9 @@ public class Bookdao {
                 float price = rs.getFloat(3);
                 String author = rs.getString(4);
                 String publisher = rs.getString(5);
-                Book book = new Book(id, name, price, author, publisher);
+                String pdate = rs.getString(6);
+                int pamount = rs.getInt(7);
+                Book book = new Book(id, name, price, author, publisher, pdate, pamount);
                 list.add(book);
             }
         } catch (SQLException var9) {

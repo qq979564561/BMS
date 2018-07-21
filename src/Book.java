@@ -5,8 +5,8 @@ public class Book {
     private float price;
     private String author;
     private String publisher;
-    private String date;
-    private int amount;
+    private String pdate;
+    private int pamount;
 
     public String getPublisher() {
         return publisher;
@@ -16,20 +16,20 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public String getDate() {
-        return date;
+    public String getPdate() {
+        return pdate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setPdate(String pdate) {
+        this.pdate = pdate;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getPamount() {
+        return pamount;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setPamount(int pamount) {
+        this.pamount = pamount;
     }
 
 
@@ -60,13 +60,14 @@ public class Book {
      * @param price
      * @param author
      */
-    public Book(int id, String name, float price, String author, String publisher) {
+    public Book(int id, String name, float price, String author, String publisher, String pdate, int pamount) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.author = author;
         this.publisher = publisher;
-
+        this.pdate = pdate;
+        this.pamount = pamount;
     }
 
     public void setName(String name) {
@@ -82,10 +83,12 @@ public class Book {
     }
 
     // FIXME
-    public Book(String name, float price, String author, String publisher) {
+    public Book(String name, float price, String author, String publisher, String pdate, int pamount) {
         this.name = name;
         this.price = price;
         this.author = author;
         this.publisher = publisher;
+        this.pdate = pdate;
+        this.pamount = pamount;
     }
 }
