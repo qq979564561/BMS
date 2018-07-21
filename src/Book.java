@@ -5,6 +5,8 @@ public class Book {
     private float price;
     private String author;
     private String publisher;
+    private String date;
+    private int amount;
 
     public String getPublisher() {
         return publisher;
@@ -30,8 +32,6 @@ public class Book {
         this.amount = amount;
     }
 
-    private String date;
-    private int amount;
 
     public String getAuthor() { return author; }
 
@@ -66,6 +66,7 @@ public class Book {
         this.price = price;
         this.author = author;
         this.publisher = publisher;
+
     }
 
     public void setName(String name) {

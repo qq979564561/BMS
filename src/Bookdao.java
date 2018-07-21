@@ -68,12 +68,14 @@ public class Bookdao {
         Connection conn = Dbutil.getConn();
         int ret = 0;
 
+        // FIXME
         try {
             PreparedStatement ps = conn.prepareStatement("update books set bname=? , price=? , author=?, publisher=?, where id =?");
             ps.setString(1, name);
             ps.setFloat(2, price);
-            ps.setInt(3, id);
-            ps.setString(4, author);
+            ps.setString(3, author);
+            ps.setString(4, publisher);
+            ps.setInt(5, id);
             ret = ps.executeUpdate();
         } catch (SQLException var7) {
             var7.printStackTrace();
