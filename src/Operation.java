@@ -8,8 +8,8 @@ import java.util.Scanner;
  */
 public class Operation {
     static Scanner in;
-    Bookdao dao = new Bookdao();
-
+    Bookdao dao1 = new Bookdao();
+    Usersdao dao2 = new Usersdao();
     static {
         in = new Scanner(System.in);
     }
@@ -50,7 +50,7 @@ public class Operation {
         int pamount = in.nextInt();
         // FIXME
         Book book = new Book(bname, price, author, publisher, pdate, pamount);
-        boolean flag = this.dao.addBook(book);
+        boolean flag = this.dao1.addBook(book);
         if (flag) {
             System.out.println("添加成功");
         } else {
@@ -63,7 +63,7 @@ public class Operation {
      * 方法：查询所有图书
      */
     public void queryAllBook() {
-        ArrayList<Book> list = this.dao.queryAllBook();
+        ArrayList<Book> list = this.dao1.queryAllBook();
 
         for(int i = 0; i < list.size(); ++i) {
             int id = ((Book)list.get(i)).getId();
@@ -85,7 +85,7 @@ public class Operation {
     public void queryBookById() {
         System.out.println("请输入要查询的书号");
         int id = in.nextInt();
-        Book bk = this.dao.queryBookById(id);
+        Book bk = this.dao1.queryBookById(id);
         if (bk != null) {
             System.out.println("编号：" + bk.getId() + "，书名：" + bk.getName() + "，价格：" + bk.getPrice()
                     + "，作者：" + bk.getAuthor() + "，出版商：" + bk.getPublisher() + ", 发行日期：" + bk.getPdate() + "，数量：" + bk.getPamount());
@@ -100,7 +100,7 @@ public class Operation {
     public void queryBookByName() {
         System.out.println("请输入要查询的书名");
         String name = in.next();
-        Book bk = this.dao.queryBookByName(name);
+        Book bk = this.dao1.queryBookByName(name);
         if (bk != null) {
             System.out.println("编号：" + bk.getId() + "，书名：" + bk.getName() + "，价格：" + bk.getPrice()
                     + "，作者：" + bk.getAuthor() + "，出版商：" + bk.getPublisher() + ", 发行日期：" + bk.getPdate() + "，数量：" + bk.getPamount());
@@ -127,7 +127,7 @@ public class Operation {
         String pdate = in.next();
         System.out.println("请输入新的数量");
         int pamount = in.nextInt();
-        int ret = this.dao.modifyBook(id, name, price, author, publisher, pdate, pamount);
+        int ret = this.dao1.modifyBook(id, name, price, author, publisher, pdate, pamount);
         if (ret == 1) {
             System.out.println("修改成功");
         } else {
@@ -142,7 +142,7 @@ public class Operation {
     public void deleteBook() {
         System.out.println("请输入如要删除的图书的图书号");
         int id = in.nextInt();
-        int ret = this.dao.deleteBook(id);
+        int ret = this.dao1.deleteBook(id);
         if (ret == 1) {
             System.out.println("删除成功");
         } else {
@@ -150,5 +150,31 @@ public class Operation {
         }
     }
 
+    /**
+     * 方法：查询并核对用户名、密码是否正确
+     */
+    public boolean ifRight() {
 
+        boolean key = false;
+        Users users = this.dao2.ifRight();
+        System.out.println("***** 默认用户名和密码为" + users.getUsername() +", "+ users.getPassword() +  "***** ");
+        System.out.println("请输入用户名：");
+        String usernameInput = in.next();
+        System.out.println("请输入密码：");
+        String passwordInput = in.next();
+
+            if (users != null) {
+                // 判断用户名密码是否正确
+                if ((users.getUsername().equals(usernameInput) ) && (users.getPassword().equals(passwordInput) )) {
+                    System.out.println("登入成功！");
+                    key = true;
+
+                }
+                else {
+                    System.out.println("用户名或密码输入错误！");
+                }
+            }
+
+        return key;
+    }
 }
