@@ -1,4 +1,8 @@
-
+/**
+ * 【模型层】
+ *  实体类：书本
+ *  功能：按照数据库对应字段编写实体类
+ */
 public class Book {
     private int id;
     private String name;
@@ -54,11 +58,8 @@ public class Book {
 
 
     /**
-     * 构造器，Book 类
-     * @param id
-     * @param name
-     * @param price
-     * @param author
+     * 构造器1，Book 类
+     * 含 id 时
      */
     public Book(int id, String name, float price, String author, String publisher, String pdate, int pamount) {
         this.id = id;
@@ -82,7 +83,10 @@ public class Book {
         this.price = price;
     }
 
-    // FIXME
+    /**
+     * 构造器2 ：Book 类
+     * 不含 id 时
+     */
     public Book(String name, float price, String author, String publisher, String pdate, int pamount) {
         this.name = name;
         this.price = price;

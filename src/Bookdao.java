@@ -5,6 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * 【模型层】
+ *  功能：实现对数据库中 book 表的增删改查
+ */
 public class Bookdao {
     public Bookdao() {
     }
@@ -32,6 +36,11 @@ public class Bookdao {
         return result;
     }
 
+    /**
+     * 方法：根据编号查询图书
+     * @param id
+     * @return
+     */
     public Book queryBookById(int id) {
         Connection conn = Dbutil.getConn();
         Book book = null;
@@ -39,6 +48,29 @@ public class Bookdao {
         try {
             PreparedStatement ps = conn.prepareStatement("select id,bname,price,author,publisher,pdate,pamount from books where id = ?");
             ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                book = new Book(rs.getInt(1), rs.getString(2), rs.getFloat(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+            }
+        } catch (SQLException var6) {
+            var6.printStackTrace();
+        }
+
+        return book;
+    }
+
+
+    /**
+     * 方法：根据书名查询图书
+     */
+    public Book queryBookByName(String bname) {
+        Connection conn = Dbutil.getConn();
+        Book book = null;
+
+        try {
+            PreparedStatement ps = conn.prepareStatement("select id,bname,price,author,publisher,pdate,pamount from books where bname = ?");
+            ps.setString(1, bname);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 book = new Book(rs.getInt(1), rs.getString(2), rs.getFloat(3),
@@ -70,7 +102,6 @@ public class Bookdao {
         Connection conn = Dbutil.getConn();
         int ret = 0;
 
-        // FIXME
         try {
             PreparedStatement ps = conn.prepareStatement("update books set bname=? , price=?, author=?, publisher=?, pdate=?, pamount=? where id =?");
             ps.setString(1, name);
